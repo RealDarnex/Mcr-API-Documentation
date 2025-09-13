@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Error179 - EntityAPI</title>
+<link rel="shortcut icon" href="images/main.png" type="image/x-icon">
+<style>
+
+body {
+  margin: 0;
+  font-family: system-ui, Arial, sans-serif;
+  background: #f9fafb;
+  color: #111;
+  height: 100vh;
+  display: flex;
+}
+
+.leftbar {
+  width: 150px;
+  background: #fff;
+  border-right: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+  gap: 20px;
+}
+.leftbar a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #555;
+  font-size: 14px;
+  transition: transform 0.2s;
+}
+.leftbar a:hover { transform: scale(1.05); }
+.leftbar a img { width: 50px; height: 50px; object-fit: contain; }
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 25px;
+  background: #fff;
+  position: relative;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+h1 { font-size: 28px; margin: 0 0 15px 0; }
+
+.search-container {
+  position: relative;
+  max-width: 600px;
+  width: 100%;
+}
+.search-box {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 50px;
+  padding: 12px 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: all 0.2s ease;
+}
+.search-box:focus-within {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  transform: scale(1.01);
+}
+.search-icon { font-size: 18px; color: #888; margin-right: 10px; }
+#search { flex: 1; border: none; outline: none; font-size: 16px; background: transparent; }
+.suggestions {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  display: none;
+  animation: fadeIn 0.15s ease;
+  background: #fff;
+  max-height: calc(5 * 48px);
+  overflow-y: auto;
+}
+.suggestions div {
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-size: 15px;
+  line-height: 24px;
+}
+.suggestions div:hover { background: #f0f8ff; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 40px 20px;
+  text-align: center;
+}
+.content p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  max-width: 95ch;
+  margin: 0.8em 0;
+  word-wrap: break-word;
+}
+
+@media (prefers-color-scheme: dark) {
+  body { background: #111827; color: #f3f4f6; }
+  .leftbar { background: #1f2937; border-right: 1px solid #374151; }
+  .topbar { background: #1f2937; box-shadow: none; }
+  .search-box { background: #374151; color: #f3f4f6; }
+  .suggestions { background: #1f2937; color: #f3f4f6; border: 1px solid #374151; }
+  .suggestions div:hover { background: #4b5563; }
+}
+</style>
+</head>
+<body>
+
+<div class="leftbar">
+  <a href="https://discord.gg/XZ9kA88NPT"><img src="images/discord.png" alt="Discord"></a>
+  <a href="https://www.youtube.com/@mcrstudioreal"><img src="images/youtube.png" alt="YouTube"></a>
+  <a href="https://github.com/RealDarnex/"><img src="images/github.png" alt="Github"></a>
+  <a href="https://www.tiktok.com/@realdarnex"><img src="images/tiktok.png" alt="TikTok"></a>
+</div>
+
+<div class="main">
+  <div class="topbar">
+    <h1>Error: 179</h1>
+    <div class="search-container">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="search" placeholder="Search...">
+      </div>
+      <div class="suggestions" id="suggestions"></div>
+    </div>
+  </div>
+
+  <div class="content">
+    <h1>Why This Error Occurs</h1>
+    <p>The error <strong>179</strong> is triggered when the provided <em>Entity</em> does not exist and is therefore <code>null</code>. This typically happens when you attempt to interact with an entity that has already been removed from the world, was never created properly, or is no longer tracked by the server.</p>
+    <p>Examples of situations that may cause this error include referencing a mob that has despawned, accessing a player object after logout, or trying to modify an item entity that was already picked up or destroyed. In all of these cases, the entity reference becomes invalid, which results in the error.</p>
+    <p>This error exists to prevent plugins from executing operations on invalid objects, which could otherwise lead to unexpected behavior, server crashes, or corrupted data. It is important to always perform a <code>null</code>-check before calling methods such as <code>setHealth()</code>, <code>teleport()</code>, or <code>getWorld()</code> on an entity.</p>
+    <p>Internally, Minecraft constantly manages and removes entities to ensure performance and stability. When chunks are unloaded, when the server restarts, or when entities are forcefully removed, references to those entities will no longer be valid. Handling these cases correctly ensures better plugin stability and smoother gameplay.</p>
+  </div>
+</div>
+
+<script>
+let docs = [];
+fetch("search.json")
+  .then(response => response.json())
+  .then(data => docs = data)
+  .catch(error => console.error("Error loading search.json:", error));
+
+const search = document.getElementById("search");
+const suggestions = document.getElementById("suggestions");
+
+search.addEventListener("input", () => {
+  const query = search.value.toLowerCase();
+  suggestions.innerHTML = "";
+  if (query.length === 0) {
+    suggestions.style.display = "none";
+    return;
+  }
+  const filtered = docs.filter(doc => doc.title.toLowerCase().includes(query)).slice(0, 5);
+  if (filtered.length > 0) {
+    suggestions.style.display = "block";
+    filtered.forEach(doc => {
+      const div = document.createElement("div");
+      div.textContent = doc.title;
+      div.onclick = () => window.location.href = doc.url;
+      suggestions.appendChild(div);
+    });
+  } else {
+    suggestions.style.display = "none";
+  }
+});
+</script>
+</body>
+</html>
