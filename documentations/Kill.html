@@ -136,7 +136,7 @@ h1 { font-size: 28px; margin: 0 0 15px 0; }
 
 <div class="main">
   <div class="topbar">
-    <h1>Docu</h1>
+    <h1>Kill - EntityAPI</h1>
     <div class="search-container">
       <div class="search-box">
         <span class="search-icon">🔍</span>
@@ -147,18 +147,34 @@ h1 { font-size: 28px; margin: 0 0 15px 0; }
   </div>
 
   <div class="content">
-    <h2>Usage</h2>
-<code>EntityAPI.kill(Entity entity)</code>
+<h2>Usage</h2>
+<code>EntityAPI.kill(Entity entity);</code>
+
+<h2>SpigotAPI Equivalent</h2>
+<code>entity.setHealth(0);</code>
 
 <h2>Description</h2>
-<p>The <code>kill()</code> method forcefully removes an entity from the world by setting its health to <code>0</code>. This only applies to entities that extend <em>LivingEntity</em>, such as players, mobs, or animals. Attempting to call this method on non-living entities (e.g., items, projectiles, armor stands) will result in an error.</p>
+<p>
+The <code>kill()</code> method terminates an entity by setting its health to <code>0</code>. 
+Internally, this mirrors the behavior of calling <code>setHealth(0)</code> on a <em>LivingEntity</em> within the Spigot API. 
+As a result, the entity dies in the same way as it would through normal gameplay mechanics.
+</p>
 
 <h2>Details</h2>
-<p>When executed successfully, the entity will die as if it were killed naturally. Death events (such as <code>EntityDeathEvent</code> for mobs or <code>PlayerDeathEvent</code> for players) will still be triggered, ensuring compatibility with other plugins that depend on these events.</p>
+<p>
+This method only applies to entities that extend <em>LivingEntity</em> (e.g., players, mobs, animals). 
+For all other entity types (such as dropped items, projectiles, armor stands, or decorative entities), 
+the method will not execute successfully and will instead trigger an error code.
+</p>
+<p>
+When successful, the method triggers the appropriate Spigot events, such as 
+<code>EntityDeathEvent</code> for mobs or <code>PlayerDeathEvent</code> for players. 
+This ensures compatibility with plugins or systems that listen for entity death events.
+</p>
 
 <h2>Available Error Codes</h2>
-<p><strong><a href="Error179.html">Error 179</a>:</strong> Triggered when the provided entity does not exist (<code>null</code>).</p>
-<p><strong><a href="Error181.html">Error 181</a>:</strong> Triggered when the provided entity is not a <em>LivingEntity</em>.</p>
+<p><strong><a href="Error179.html">Error 179</a>:</strong> The entity does not exist (<code>null</code>).</p>
+<p><strong><a href="Error181.html">Error 181</a>:</strong> The entity is not a <em>LivingEntity</em>.</p>
 
   </div>
 </div>
